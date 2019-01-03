@@ -16,7 +16,7 @@ namespace Senmon_Missile
         private fk_Prism wingshape;
         public Missile()
         {
-
+            mmodel = new fk_Model();
         }
     }
 }
