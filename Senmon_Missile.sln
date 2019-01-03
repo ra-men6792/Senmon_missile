@@ -1,0 +1,25 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 15
+VisualStudioVersion = 15.0.28010.2048
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Senmon_Missile", "Senmon_Missile\Senmon_Missile.csproj", "{BC9BF2C5-51FE-4AC9-A78C-A4EC678EA961}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{BC9BF2C5-51FE-4AC9-A78C-A4EC678EA961}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{BC9BF2C5-51FE-4AC9-A78C-A4EC678EA961}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{BC9BF2C5-51FE-4AC9-A78C-A4EC678EA961}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{BC9BF2C5-51FE-4AC9-A78C-A4EC678EA961}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {780DA229-A4BA-40ED-9AC8-0B820F0D9B05}
+	EndGlobalSection
+EndGlobal
