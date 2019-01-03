@@ -21,7 +21,7 @@ namespace Senmon_Missile
         public Player()
         {
             pmodel = new fk_Model();
-            cone = new fk_Cone(32, 1.5, 4);
+            cone = new fk_Cone(32, 1.5, 3.5);
             Speed = 0.2;
             Angle = FK.PI / 50.0;
         }
