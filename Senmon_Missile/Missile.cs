@@ -14,6 +14,17 @@ namespace Senmon_Missile
         private fk_Model mwing;
         private fk_Capsule bodyshape;
         private fk_Prism wingshape;
+
+        //移動系
+        private double period=5.0;
+        private Random randTime;
+        private fk_Vector accel;
+        private fk_Vector velocity;
+        private fk_Vector position;
+        fk_Vector diff;
+        private double deltatime=0.05;
+
+
         public Missile()
         {
             mmodel = new fk_Model();
@@ -21,6 +32,13 @@ namespace Senmon_Missile
             mwing = new fk_Model();
             bodyshape = new fk_Capsule(32, 1.5, 0.5);
             wingshape = new fk_Prism(3, 1.25, 1.25, 0.25);
+            randTime = new Random(100);
+
+            accel = new fk_Vector();
+            velocity = new fk_Vector();
+            position = new fk_Vector();
+            diff = new fk_Vector();
+
         }
 
         public void Entry(fk_AppWindow argWin)
@@ -32,7 +50,7 @@ namespace Senmon_Missile
             mwing.Material = fk_Material.LavaRed;
 
             mbody.GlVec(0.0, 0.0, -1.0);
-            mwing.GlAngle(3.0*FK.PI/2.0,FK.PI/2.0, 0.0);
+            mwing.GlAngle(3.0 * FK.PI / 2.0, FK.PI / 2.0, 0.0);
             mwing.GlMoveTo(0.0, -0.125, 0.5);
 
             argWin.Entry(mbody);
@@ -42,12 +60,29 @@ namespace Senmon_Missile
             mbody.EntryChild(mwing);
 
             argWin.Entry(mmodel);
-                      
+
         }
 
         public void LookVec(fk_Vector Target)
         {
-            mmodel.GlVec(Target);
+            diff = Target - mmodel.Position;
+            mmodel.GlVec(diff);
+            Move(diff);
+        }
+
+        public void Move(fk_Vector Diff)
+        {
+            accel = new fk_Vector();
+            accel += 2.0 * (Diff - velocity * period) / (period * period);
+            period -= deltatime;
+            if (period < 0.0)
+            {
+                return;
+            }
+            velocity += accel * deltatime;
+            position += velocity * deltatime;
+            mmodel.GlMoveTo(position);
+            
         }
     }
 }

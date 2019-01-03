@@ -29,6 +29,7 @@ namespace Senmon_Missile
             {
                 player.Move(win);
                 missile.LookVec(player.Pos);
+                
             }
         }
         static void MakeWindow(fk_AppWindow argWin)
