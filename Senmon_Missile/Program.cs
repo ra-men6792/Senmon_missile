@@ -11,7 +11,7 @@ namespace Senmon_Missile
         static void Main(string[] args)
         {
             fk_Material.InitDefault();
-            var win =new fk_AppWindow();
+            var win = new fk_AppWindow();
             win.ShowGuide(fk_GuideMode.GRID_XY);
             win.TrackBallMode = true;
             MakeWindow(win);
@@ -19,16 +19,24 @@ namespace Senmon_Missile
             Player player;
             player = new Player();
             player.Entry(win);
+            player.Pos = new fk_Vector(20.0, -30.0, 0.0);
 
-            Missile missile;
-            missile = new Missile();
-            missile.Entry(win);
+            Missile[] missile = new Missile[5];
+            for (int n = 0; n < missile.Length; n++)
+            {
+                fk_Vector instPos = new fk_Vector(10 * n - 30, 0, 0);
+                missile[n] = new Missile();
+                missile[n].Entry(win,instPos);
+            }
 
             win.Open();
             while (win.Update() == true)
             {
                 player.Move(win);
-                missile.LookVec(player.Pos,win);
+                for(int n = 0; n < missile.Length; n++)
+                {
+                    missile[n].LookVec(player.Pos, win);
+                }
             }
         }
         static void MakeWindow(fk_AppWindow argWin)

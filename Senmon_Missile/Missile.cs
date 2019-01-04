@@ -23,7 +23,7 @@ namespace Senmon_Missile
         private fk_Vector position;
         fk_Vector diff;
         private double deltatime=0.05;
-        private double maxAccel=10;
+        private double maxAccel=20;
 
         //パーティクル系
         private MissileParticle particle;
@@ -49,7 +49,7 @@ namespace Senmon_Missile
 
         }
 
-        public void Entry(fk_AppWindow argWin)
+        public void Entry(fk_AppWindow argWin,fk_Vector pos)
         {
             mbody.Shape = bodyshape;
             mwing.Shape = wingshape;
@@ -69,6 +69,8 @@ namespace Senmon_Missile
 
             argWin.Entry(mmodel);
             argWin.Entry(particleModel);
+            position = pos;
+            mmodel.GlMoveTo(pos);
         }
 
         public void LookVec(fk_Vector Target,fk_AppWindow argWin)
@@ -102,7 +104,7 @@ namespace Senmon_Missile
             position += velocity * deltatime;
             particle.Handle();
             mmodel.GlMoveTo(position);
-            
+           
         }
 
     }

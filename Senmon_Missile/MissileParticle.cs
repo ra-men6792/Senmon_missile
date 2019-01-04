@@ -28,7 +28,7 @@ namespace Senmon_Missile
             }
             rand = new Random();
             white = new fk_Color(1.0, 1.0, 1.0);
-            gray = new fk_Color(0.5, 0.5, 0.5);
+            gray = new fk_Color(1.0, 1.0, 1.0);
             maxSpeed = 0.3;//これより早いパーティクルはGray
             minSpeed = 0.1;//これより遅いパーティクルはWhite
         }
