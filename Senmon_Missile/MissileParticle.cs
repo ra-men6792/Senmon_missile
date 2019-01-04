@@ -19,7 +19,7 @@ namespace Senmon_Missile
         public MissileParticle()
         {
             Pos = new fk_Vector();
-            MaxSize = 9000;//パーティクルの最大表示数
+            MaxSize = 1000;//パーティクルの最大表示数
             IndivMode = true;
             AllMode = true;
             for (int i = 0; i < MaxSize; i++)
@@ -45,9 +45,9 @@ namespace Senmon_Missile
 
         public override void AllMethod()
         {
-            for (int i = 0; i < 20; i++)
+            for (int i = 0; i < 5; i++)
             {
-                if (rand.NextDouble() < 0.9)
+                if (rand.NextDouble() < 0.7)
                 {
                     NewParticle();//パーティクル生成処理
                 }
