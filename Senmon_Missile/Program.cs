@@ -21,12 +21,13 @@ namespace Senmon_Missile
             player.Entry(win);
             player.Pos = new fk_Vector(20.0, -30.0, 0.0);
 
-            Missile[] missile = new Missile[5];
+            Missile[] missile = new Missile[6];
             for (int n = 0; n < missile.Length; n++)
             {
                 fk_Vector instPos = new fk_Vector(10 * n - 30, 0, 0);
                 missile[n] = new Missile();
                 missile[n].Entry(win,instPos);
+                Console.WriteLine(missile[n].moveMode);
             }
 
             win.Open();

@@ -14,10 +14,17 @@ namespace Senmon_Missile
         private fk_Model mwing;
         private fk_Capsule bodyshape;
         private fk_Prism wingshape;
+        private enum MoveMode
+        {
+            Line,
+            Curve,
+            Random
+        }
+        public int moveMode;
 
         //移動系
         private double period=7.0;
-        private Random randTime;
+        private Random rand;
         private fk_Vector accel;
         private fk_Vector velocity;
         private fk_Vector position;
@@ -36,7 +43,7 @@ namespace Senmon_Missile
             mwing = new fk_Model();
             bodyshape = new fk_Capsule(32, 1.5, 0.5);
             wingshape = new fk_Prism(3, 1.25, 1.25, 0.25);
-            randTime = new Random(100);
+            rand = new Random();
 
             accel = new fk_Vector();
             velocity = new fk_Vector();
@@ -47,6 +54,8 @@ namespace Senmon_Missile
             particleModel = new fk_Model();
             particleModel.Shape = particle.Shape;
 
+            //ミサイルの移動パターン決定
+            moveMode = rand.Next(0, 3);
         }
 
         public void Entry(fk_AppWindow argWin,fk_Vector pos)
@@ -83,28 +92,57 @@ namespace Senmon_Missile
 
         public void Move(fk_Vector Diff,fk_AppWindow argWin)
         {
-            accel = new fk_Vector();
-            accel += 2.0 * (Diff - velocity * period) / (period * period);
-            accel += new fk_Vector(3.0, 0.0, 0.0);
-            
-            period -= deltatime;
-            if (period < 0.0)
+            switch (moveMode)
             {
-                argWin.Remove(particleModel);
-                argWin.Remove(mmodel);
-                argWin.Remove(mwing);
-                argWin.Remove(mbody);
-                return;
+                case (int)MoveMode.Line:
+                    period -= deltatime;
+                    if (period < 0.0)
+                    {
+                        argWin.Remove(particleModel);
+                        argWin.Remove(mmodel);
+                        argWin.Remove(mwing);
+                        argWin.Remove(mbody);
+                        return;
+                    }
+                    mmodel.LoTranslate(0.0, 0.0, -0.25);
+                    break;
+                case (int)MoveMode.Curve:
+
+                    accel = new fk_Vector();
+                    accel += 2.0 * (Diff - velocity * period) / (period * period);
+                    accel += new fk_Vector(rand.NextDouble() * 90.0 - 45.0, 0.0, 0.0);
+
+                    period -= deltatime;
+                    if (period < 0.0)
+                    {
+                        argWin.Remove(particleModel);
+                        argWin.Remove(mmodel);
+                        argWin.Remove(mwing);
+                        argWin.Remove(mbody);
+                        return;
+                    }
+                    if (accel.Dist() > maxAccel)
+                    {
+                        accel = (accel / accel.Dist()) * maxAccel;
+                    }
+                    velocity += accel * deltatime;
+                    position += velocity * deltatime;
+                    particle.Handle();
+                    mmodel.GlMoveTo(position);
+                    break;
+                case (int)MoveMode.Random:
+                    period -= deltatime;
+                    if (period < 0.0)
+                    {
+                        argWin.Remove(particleModel);
+                        argWin.Remove(mmodel);
+                        argWin.Remove(mwing);
+                        argWin.Remove(mbody);
+                        return;
+                    }
+                    mmodel.LoTranslate(0.0, 0.0, -0.25);
+                    break;
             }
-            if (accel.Dist() > maxAccel)
-            {
-                accel = (accel / accel.Dist()) * maxAccel;
-            }
-            velocity += accel * deltatime;
-            position += velocity * deltatime;
-            particle.Handle();
-            mmodel.GlMoveTo(position);
-           
         }
 
     }
