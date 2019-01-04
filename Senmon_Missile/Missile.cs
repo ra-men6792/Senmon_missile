@@ -16,14 +16,18 @@ namespace Senmon_Missile
         private fk_Prism wingshape;
 
         //移動系
-        private double period=5.0;
+        private double period=7.0;
         private Random randTime;
         private fk_Vector accel;
         private fk_Vector velocity;
         private fk_Vector position;
         fk_Vector diff;
         private double deltatime=0.05;
+        private double maxAccel=10;
 
+        //パーティクル系
+        private MissileParticle particle;
+        private fk_Model particleModel;
 
         public Missile()
         {
@@ -38,6 +42,10 @@ namespace Senmon_Missile
             velocity = new fk_Vector();
             position = new fk_Vector();
             diff = new fk_Vector();
+
+            particle = new MissileParticle();
+            particleModel = new fk_Model();
+            particleModel.Shape = particle.Shape;
 
         }
 
@@ -60,13 +68,14 @@ namespace Senmon_Missile
             mbody.EntryChild(mwing);
 
             argWin.Entry(mmodel);
-
+            argWin.Entry(particleModel);
         }
 
         public void LookVec(fk_Vector Target)
         {
             diff = Target - mmodel.Position;
             mmodel.GlVec(diff);
+            particle.getPos(mmodel.Position);
             Move(diff);
         }
 
@@ -74,14 +83,27 @@ namespace Senmon_Missile
         {
             accel = new fk_Vector();
             accel += 2.0 * (Diff - velocity * period) / (period * period);
+            accel += new fk_Vector(3.0, 0.0, 0.0);
+            
             period -= deltatime;
             if (period < 0.0)
             {
+                ModelDestroy();
                 return;
             }
+          /*  if (accel.Dist() > maxAccel)
+            {
+                accel = (accel / accel.Dist()) * maxAccel;
+            }*/
             velocity += accel * deltatime;
             position += velocity * deltatime;
+            particle.Handle();
             mmodel.GlMoveTo(position);
+            
+        }
+
+        public void ModelDestroy()
+        {
             
         }
     }
