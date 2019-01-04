@@ -19,7 +19,7 @@ namespace Senmon_Missile
         public MissileParticle()
         {
             Pos = new fk_Vector();
-            MaxSize = 1000;//パーティクルの最大表示数
+            MaxSize = 2000;//パーティクルの最大表示数
             IndivMode = true;
             AllMode = true;
             for (int i = 0; i < MaxSize; i++)
@@ -79,11 +79,7 @@ namespace Senmon_Missile
             fk_Color newCol = (1.0 - t) * gray + t * white;
             SetColorPalette(p.ID, newCol);
 
-            //パーティクルのX成分が‐50以下で消去
-            if (pos.x < -50.0||pos.x>50.0)
-            {
-                RemoveParticle(p);
-            }
+           
         }
 
         public void getPos(fk_Vector mPos)

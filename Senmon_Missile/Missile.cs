@@ -71,15 +71,15 @@ namespace Senmon_Missile
             argWin.Entry(particleModel);
         }
 
-        public void LookVec(fk_Vector Target)
+        public void LookVec(fk_Vector Target,fk_AppWindow argWin)
         {
             diff = Target - mmodel.Position;
             mmodel.GlVec(diff);
             particle.getPos(mmodel.Position);
-            Move(diff);
+            Move(diff,argWin);
         }
 
-        public void Move(fk_Vector Diff)
+        public void Move(fk_Vector Diff,fk_AppWindow argWin)
         {
             accel = new fk_Vector();
             accel += 2.0 * (Diff - velocity * period) / (period * period);
@@ -88,13 +88,16 @@ namespace Senmon_Missile
             period -= deltatime;
             if (period < 0.0)
             {
-                ModelDestroy();
+                argWin.Remove(particleModel);
+                argWin.Remove(mmodel);
+                argWin.Remove(mwing);
+                argWin.Remove(mbody);
                 return;
             }
-          /*  if (accel.Dist() > maxAccel)
+            if (accel.Dist() > maxAccel)
             {
                 accel = (accel / accel.Dist()) * maxAccel;
-            }*/
+            }
             velocity += accel * deltatime;
             position += velocity * deltatime;
             particle.Handle();
@@ -102,9 +105,5 @@ namespace Senmon_Missile
             
         }
 
-        public void ModelDestroy()
-        {
-            
-        }
     }
 }
