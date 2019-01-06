@@ -8,6 +8,7 @@ namespace Senmon_Missile
 {
     class Program
     {
+        const int MissileMaxNum = 10;
         static void Main(string[] args)
         {
             fk_Material.InitDefault();
@@ -21,7 +22,7 @@ namespace Senmon_Missile
             player.Entry(win);
             player.Pos = new fk_Vector(20.0, -30.0, 0.0);
 
-            Missile[] missile = new Missile[6];
+            Missile[] missile = new Missile[MissileMaxNum];
             for (int n = 0; n < missile.Length; n++)
             {
                 fk_Vector instPos = new fk_Vector(10 * n - 30, 0, 0);
@@ -44,6 +45,12 @@ namespace Senmon_Missile
         {
             argWin.Size = new fk_Dimension(950, 700);
             argWin.ShowGuide(fk_GuideMode.GRID_XY);
+            argWin.FPS = 55;
+        }
+        static void CameraSet()
+        {
+            fk_Model camera = new fk_Model();
+            
         }
     }
 }

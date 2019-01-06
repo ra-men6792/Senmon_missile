@@ -23,7 +23,7 @@ namespace Senmon_Missile
         public int moveMode;
 
         //移動系
-        private double period=7.0;
+        private double period;
         private Random rand;
         private fk_Vector accel;
         private fk_Vector velocity;
@@ -35,6 +35,8 @@ namespace Senmon_Missile
         //パーティクル系
         private MissileParticle particle;
         private fk_Model particleModel;
+
+
 
         public Missile()
         {
@@ -56,6 +58,9 @@ namespace Senmon_Missile
 
             //ミサイルの移動パターン決定
             moveMode = rand.Next(0, 3);
+
+            //ミサイルの消滅時間
+            period = rand.Next(5, 10);
         }
 
         public void Entry(fk_AppWindow argWin,fk_Vector pos)
@@ -95,6 +100,9 @@ namespace Senmon_Missile
             switch (moveMode)
             {
                 case (int)MoveMode.Line:
+                    accel = new fk_Vector();
+                    accel += 2.0 * (Diff - velocity * period) / (period * period);
+
                     period -= deltatime;
                     if (period < 0.0)
                     {
@@ -104,7 +112,14 @@ namespace Senmon_Missile
                         argWin.Remove(mbody);
                         return;
                     }
-                    mmodel.LoTranslate(0.0, 0.0, -0.25);
+                    if (accel.Dist() > maxAccel)
+                    {
+                        accel = (accel / accel.Dist()) * maxAccel;
+                    }
+                    velocity += accel * deltatime;
+                    position += velocity * deltatime;
+                    particle.Handle();
+                    mmodel.GlMoveTo(position);
                     break;
                 case (int)MoveMode.Curve:
 
@@ -131,6 +146,11 @@ namespace Senmon_Missile
                     mmodel.GlMoveTo(position);
                     break;
                 case (int)MoveMode.Random:
+                    Diff.x += rand.NextDouble() * 20.0 - 10.0;
+                    accel = new fk_Vector();
+                    accel += 2.0 * (Diff - velocity * period) / (period * period);
+                    accel += new fk_Vector(rand.NextDouble() * 90.0 - 45.0, 0.0, 0.0);
+
                     period -= deltatime;
                     if (period < 0.0)
                     {
@@ -140,7 +160,14 @@ namespace Senmon_Missile
                         argWin.Remove(mbody);
                         return;
                     }
-                    mmodel.LoTranslate(0.0, 0.0, -0.25);
+                    if (accel.Dist() > maxAccel)
+                    {
+                        accel = (accel / accel.Dist()) * maxAccel;
+                    }
+                    velocity += accel * deltatime;
+                    position += velocity * deltatime;
+                    particle.Handle();
+                    mmodel.GlMoveTo(position);
                     break;
             }
         }
