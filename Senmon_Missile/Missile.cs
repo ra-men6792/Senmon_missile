@@ -30,20 +30,14 @@ namespace Senmon_Missile
         private fk_Vector position;
         fk_Vector diff;
         private double deltatime=0.05;
-        private double maxAccel=30;
-
-        //パーティクル系
-        private MissileParticle particle;
-        private fk_Model particleModel;
-
-
+        private double maxAccel=20;
 
         public Missile()
         {
             mmodel = new fk_Model();
             mbody = new fk_Model();
             mwing = new fk_Model();
-            bodyshape = new fk_Capsule(32, 1.5, 0.5);
+            bodyshape = new fk_Capsule(2, 1.5, 0.5);
             wingshape = new fk_Prism(3, 1.25, 1.25, 0.25);
             rand = new Random();
 
@@ -51,10 +45,6 @@ namespace Senmon_Missile
             velocity = new fk_Vector();
             position = new fk_Vector();
             diff = new fk_Vector();
-
-            particle = new MissileParticle();
-            particleModel = new fk_Model();
-            particleModel.Shape = particle.Shape;
 
             //ミサイルの移動パターン決定
             moveMode = rand.Next(0, 3);
@@ -82,7 +72,6 @@ namespace Senmon_Missile
             mbody.EntryChild(mwing);
 
             argWin.Entry(mmodel);
-            argWin.Entry(particleModel);
             position = pos;
             mmodel.GlMoveTo(pos);
         }
@@ -91,7 +80,6 @@ namespace Senmon_Missile
         {
             diff = Target - mmodel.Position;
             mmodel.GlVec(diff);
-            particle.getPos(mmodel.Position);
             Move(diff,argWin);
         }
 
@@ -106,7 +94,6 @@ namespace Senmon_Missile
                     period -= deltatime;
                     if (period < 0.0)
                     {
-                        argWin.Remove(particleModel);
                         argWin.Remove(mmodel);
                         argWin.Remove(mwing);
                         argWin.Remove(mbody);
@@ -118,7 +105,6 @@ namespace Senmon_Missile
                     }
                     velocity += accel * deltatime;
                     position += velocity * deltatime;
-                    particle.Handle();
                     mmodel.GlMoveTo(position);
                     break;
                 case (int)MoveMode.Curve:
@@ -130,7 +116,6 @@ namespace Senmon_Missile
                     period -= deltatime;
                     if (period < 0.0)
                     {
-                        argWin.Remove(particleModel);
                         argWin.Remove(mmodel);
                         argWin.Remove(mwing);
                         argWin.Remove(mbody);
@@ -142,7 +127,6 @@ namespace Senmon_Missile
                     }
                     velocity += accel * deltatime;
                     position += velocity * deltatime;
-                    particle.Handle();
                     mmodel.GlMoveTo(position);
                     break;
                 case (int)MoveMode.Random:
@@ -154,7 +138,6 @@ namespace Senmon_Missile
                     period -= deltatime;
                     if (period < 0.0)
                     {
-                        argWin.Remove(particleModel);
                         argWin.Remove(mmodel);
                         argWin.Remove(mwing);
                         argWin.Remove(mbody);
@@ -166,7 +149,6 @@ namespace Senmon_Missile
                     }
                     velocity += accel * deltatime;
                     position += velocity * deltatime;
-                    particle.Handle();
                     mmodel.GlMoveTo(position);
                     break;
             }
