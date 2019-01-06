@@ -30,7 +30,7 @@ namespace Senmon_Missile
         private fk_Vector position;
         fk_Vector diff;
         private double deltatime=0.05;
-        private double maxAccel=20;
+        private double maxAccel=30;
 
         //パーティクル系
         private MissileParticle particle;

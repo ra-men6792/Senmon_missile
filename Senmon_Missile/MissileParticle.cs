@@ -19,7 +19,7 @@ namespace Senmon_Missile
         public MissileParticle()
         {
             Pos = new fk_Vector();
-            MaxSize = 2000;//パーティクルの最大表示数
+            MaxSize = 1500;//パーティクルの最大表示数
             IndivMode = true;
             AllMode = true;
             for (int i = 0; i < MaxSize; i++)
@@ -36,9 +36,9 @@ namespace Senmon_Missile
         public override void GenMethod(fk_Particle p)
         {
             fk_Vector randPos = new fk_Vector();
-            randPos.x = rand.NextDouble() * 1.0 - 0.5;
-            randPos.y = rand.NextDouble() * 1.0 - 0.5;
-            randPos.z = rand.NextDouble() * 1.0 - 0.5;
+            randPos.x = rand.NextDouble() * 0.5 - 0.25;
+            randPos.y = rand.NextDouble() * 0.5 - 0.25;
+            randPos.z = rand.NextDouble() * 0.5 - 0.25;
             p.Position = new fk_Vector(Pos+randPos);
             p.ColorID = p.ID;
         }

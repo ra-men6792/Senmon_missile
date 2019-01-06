@@ -8,7 +8,7 @@ namespace Senmon_Missile
 {
     class Program
     {
-        const int MissileMaxNum = 10;
+        const int MissileMaxNum = 5;
         static void Main(string[] args)
         {
             fk_Material.InitDefault();
@@ -25,7 +25,7 @@ namespace Senmon_Missile
             Missile[] missile = new Missile[MissileMaxNum];
             for (int n = 0; n < missile.Length; n++)
             {
-                fk_Vector instPos = new fk_Vector(10 * n - 30, 0, 0);
+                fk_Vector instPos = new fk_Vector(10 * n - 30, 50, 0);
                 missile[n] = new Missile();
                 missile[n].Entry(win,instPos);
                 Console.WriteLine(missile[n].moveMode);
