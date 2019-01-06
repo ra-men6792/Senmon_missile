@@ -111,7 +111,7 @@ namespace Senmon_Missile
 
                     accel = new fk_Vector();
                     accel += 2.0 * (Diff - velocity * period) / (period * period);
-                    accel += new fk_Vector(rand.NextDouble() * 90.0 - 45.0, 0.0, 0.0);
+                    accel += new fk_Vector(rand.NextDouble() * 1000.0 - 500.0, 0.0, 0.0);
 
                     period -= deltatime;
                     if (period < 0.0)

@@ -8,7 +8,7 @@ namespace Senmon_Missile
 {
     class Program
     {
-        const int MissileMaxNum = 300;
+        const int MissileMaxNum = 100;
         static void Main(string[] args)
         {
             fk_Material.InitDefault();
