@@ -7,20 +7,20 @@ using FK_CLI;
 
 namespace Senmon_Missile
 {
-    class MissileMoveParticle
+    class MissileDeleteParticle
     {
         Random rand = new Random();
         fk_Point points;
         fk_Model pmodel;
-        public MissileMoveParticle(fk_AppWindow argWin)
+        public MissileDeleteParticle(fk_AppWindow argWin)
         {
             points = new fk_Point();
             pmodel = new fk_Model();
             pmodel.Shape = points;
             pmodel.PointSize = 4.5;
-            pmodel.PointColor = new fk_Color(rand.NextDouble()*(155.0/256.0)+(100.0/256.0), rand.NextDouble() * (155.0 / 256.0) + (100.0 / 256.0), rand.NextDouble() * (155.0 / 256.0) + (100.0 / 256.0));
+            pmodel.PointColor = new fk_Color(rand.NextDouble() * (155.0 / 256.0) + (100.0 / 256.0), rand.NextDouble() * (155.0 / 256.0) + (100.0 / 256.0), rand.NextDouble() * (155.0 / 256.0) + (100.0 / 256.0));
             argWin.Entry(pmodel);
-            
+
         }
         public void PushPoints(fk_Vector pos)
         {

@@ -24,31 +24,42 @@ namespace Senmon_Missile
 
             Random rand = new Random();
 
-            Missile[] missile = new Missile[MissileMaxNum];
-            for (int n = 0; n < missile.Length; n++)
-            {
-                fk_Vector instPos = new fk_Vector(rand.NextDouble()*30.0-15.0, -30, 0);
-                missile[n] = new Missile();
-                missile[n].Entry(win,instPos,n*rand.Next());
-               // Console.WriteLine(missile[n].moveMode);
-            }
-            CameraSet(win, player.Pos);
+            Missile missile = new Missile(0);
+            List<Missile> missiles = new List<Missile>();
+            int t = 0;
             win.Open();
             while (win.Update() == true)
             {
-                CameraSet(win, player.Pos);
+                t++;
+                rand = new Random(t);
+                //CameraSet(win, player.Pos);
                 player.Move(win);
-                for(int n = 0; n < missile.Length; n++)
+             
+                if(win.GetKeyStatus(' ', fk_SwitchStatus.DOWN))
                 {
-                    missile[n].HitCheck(player.pmodel, win);
-                    missile[n].LookVec(player.Pos, win);
+                    for (int n = 0; n < rand.Next(5,20); n++)
+                    {
+                        missile = new Missile(n*t);
+                        missiles.Add(missile);
+                        missiles[missiles.Count - 1].Entry(win, player.Pos);
+                    }
+                }
+                for(int n = 0; n < missiles.Count; n++)
+                {
+                    //ミサイル生存確認
+                    if (missiles[n].liveflag == false)
+                    {
+                        missiles.Remove(missiles[n]);
+                        break;
+                    }
+                    missiles[n].LookVec(new fk_Vector(), win);
                 }
             }
         }
         static void MakeWindow(fk_AppWindow argWin)
         {
             argWin.Size = new fk_Dimension(950, 700);
-            argWin.ShowGuide(fk_GuideMode.GRID_XY);
+           // argWin.ShowGuide(fk_GuideMode.GRID_XY);
             argWin.FPS = 60;
         }
         static void CameraSet(fk_AppWindow argWin,fk_Vector parentPos)

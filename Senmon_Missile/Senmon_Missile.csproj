@@ -47,6 +47,7 @@
   <ItemGroup>
     <Compile Include="Enemy.cs" />
     <Compile Include="Missile.cs" />
+    <Compile Include="MissileDeleteParticle.cs" />
     <Compile Include="MissileMoveParticle.cs" />
     <Compile Include="Player.cs" />
     <Compile Include="Program.cs" />
