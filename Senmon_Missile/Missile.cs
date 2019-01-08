@@ -24,7 +24,7 @@ namespace Senmon_Missile
         //randamMoveの時用当たらない位置
         fk_Vector randPos;
 
-        private enum MoveMode
+        enum MoveMode 
         {
             Line,
             Curve,
@@ -33,7 +33,6 @@ namespace Senmon_Missile
 
         }
         public int moveMode;
-
         //移動系
         private double period;
         private Random rand;
@@ -42,18 +41,18 @@ namespace Senmon_Missile
         private fk_Vector position;
         fk_Vector diff;
         private double deltatime = 0.03;
-        private double maxAccel = 20;
 
 
-        public Missile(int seed)
+        public Missile(int randNum)
         {
+            
             liveflag = true;
             mmodel = new fk_Model();
             mbody = new fk_Model();
             mwing = new fk_Model();
             bodyshape = new fk_Capsule(2, 1.5, 0.5);
             wingshape = new fk_Prism(3, 1.25, 1.25, 0.25);
-            rand = new Random(seed);
+            rand = new Random();
             randPos = new fk_Vector();
             accel = new fk_Vector();
             velocity = new fk_Vector();
@@ -61,7 +60,7 @@ namespace Senmon_Missile
             diff = new fk_Vector();
 
             //ミサイルの移動パターン決定
-            moveMode = rand.Next(0,100);
+            moveMode = randNum;
             if (moveMode < 10)
             {
                 moveMode = (int)MoveMode.Line;
@@ -76,16 +75,15 @@ namespace Senmon_Missile
             {
                 moveMode = (int)MoveMode.RandLine;
             }
-            Console.WriteLine(moveMode);
             //ミサイルの消滅時間
             period = rand.Next(5, 8);
 
         }
 
-        public void Entry(fk_AppWindow argWin, fk_Vector pos)
+        public void Entry(fk_AppWindow argWin, fk_Vector pos,int randSeed)
         {
-            moveParticle = new MissileMoveParticle(argWin);
-            rand = new Random();
+            moveParticle = new MissileMoveParticle(argWin,randSeed);
+            rand = new Random(randSeed);
 
             mbody.Shape = bodyshape;
             mwing.Shape = wingshape;
@@ -189,12 +187,6 @@ namespace Senmon_Missile
                 }
             }
         }
-        public void HitCheck(fk_Model tmodel, fk_AppWindow argWin)
-        {
-            if (tmodel.IsInter(mbody) == true)
-            {
-                liveflag = false;
-            }
-        }
+       
     }
 }

@@ -14,11 +14,18 @@ namespace Senmon_Missile
         fk_Model pmodel;
         public MissileDeleteParticle(fk_AppWindow argWin)
         {
+            double R, G, B;
             points = new fk_Point();
             pmodel = new fk_Model();
             pmodel.Shape = points;
             pmodel.PointSize = 4.5;
-            pmodel.PointColor = new fk_Color(rand.NextDouble() * (155.0 / 256.0) + (100.0 / 256.0), rand.NextDouble() * (155.0 / 256.0) + (100.0 / 256.0), rand.NextDouble() * (155.0 / 256.0) + (100.0 / 256.0));
+            R = rand.NextDouble();
+            G = rand.NextDouble();
+            B = rand.NextDouble();
+
+            Console.WriteLine("R : " + R + " G : " + G + " B : " + B);
+
+            pmodel.PointColor = new fk_Color(R * (155.0 / 256.0) + (100.0 / 256.0), G * (155.0 / 256.0) + (100.0 / 256.0), B * (155.0 / 256.0) + (100.0 / 256.0));
             argWin.Entry(pmodel);
 
         }
