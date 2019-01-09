@@ -52,7 +52,6 @@ namespace Senmon_Missile
             {
                 pmodel.LoTranslate(0.0, 0.0, Speed * 3.0);
             }
-            pmodel.LoTranslate(0.0, 0.0, 0.0);
         }
         
     }

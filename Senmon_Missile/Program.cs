@@ -34,8 +34,11 @@ namespace Senmon_Missile
             Player player;
             player = new Player();
             player.Entry(win);
-            player.Pos = new fk_Vector(0.0, -30.0, 0.0);
 
+            Enemy enemy;
+            enemy = new Enemy();
+            enemy.Entry(win);
+                
             Random rand = new Random();
 
             Missile missile;
@@ -51,12 +54,12 @@ namespace Senmon_Missile
             }
             ModeSprite.SetPositionLT(-300, 250);
             win.Entry(ModeSprite);
-            mtxt = "Normal";
+            mtxt = "1 : Normal";
             int t = 0;
             win.Open();
             while (win.Update() == true)
             {
-               
+                enemy.ChangePos(win);
                 t++;
                 rand = new Random(t);
                 int nNum = rand.Next(3, 10);
@@ -67,39 +70,39 @@ namespace Senmon_Missile
                 if (win.GetKeyStatus('1', fk_SwitchStatus.DOWN))
                 {
                     DMode = (int)DrawMode.Normal;
-                    mtxt = "Normal";
+                    mtxt = "1 : Normal";
                 }
                 if (win.GetKeyStatus('2', fk_SwitchStatus.DOWN))
                 {
                     DMode = (int)DrawMode.Line;
-                    mtxt = "Line";
+                    mtxt = "2 : Line";
                 }
                 if (win.GetKeyStatus('3', fk_SwitchStatus.DOWN))
                 {
                     DMode = (int)DrawMode.Curve;
-                    mtxt = "Curve";
+                    mtxt = "3 : Curve";
                 }
                 if (win.GetKeyStatus('4', fk_SwitchStatus.DOWN))
                 {
                     DMode = (int)DrawMode.RandLine;
-                    mtxt = "RandLine";
+                    mtxt = "4 : RandLine";
                 }
                 if (win.GetKeyStatus('5', fk_SwitchStatus.DOWN))
                 {
                     DMode = (int)DrawMode.RandCurve;
-                    mtxt = "RandCurve";
+                    mtxt = "5 : RandCurve";
                 }
                 if (win.GetKeyStatus('6', fk_SwitchStatus.DOWN))
                 {
                     DMode = (int)DrawMode.Lines;
-                    mtxt = "Lines";
+                    mtxt = "6 : Lines";
                 }
                 if (win.GetKeyStatus('7', fk_SwitchStatus.DOWN))
                 {
                     DMode = (int)DrawMode.Curves;
-                    mtxt = "Curves";
+                    mtxt = "7 : Curves";
                 }
-                ModeSprite.DrawText("描画モード : " + mtxt,true);
+                ModeSprite.DrawText("モード(1～7) = " + mtxt,true);
 
                 //発射
                 if (win.GetKeyStatus(' ', fk_SwitchStatus.DOWN))
@@ -157,6 +160,7 @@ namespace Senmon_Missile
                 {
                     win.ClearModel(true);
                     player.Entry(win);
+                    win.Entry(ModeSprite);
 
                 }
                 for (int n = 0; n < missiles.Count; n++)
@@ -169,7 +173,7 @@ namespace Senmon_Missile
                     }
                     else
                     {
-                        missiles[n].LookVec(new fk_Vector(), win);
+                        missiles[n].LookVec(enemy.Pos, win);
                     }
                 }
             }
@@ -181,7 +185,8 @@ namespace Senmon_Missile
         }
         static void CameraSet(fk_AppWindow argWin, fk_Vector parentPos)
         {
-            argWin.CameraPos = parentPos + new fk_Vector(0.0, -30.0, 200.0);
+            argWin.CameraPos = parentPos + new fk_Vector(0.0, -30.0, 0.0);
+            argWin.CameraFocus=parentPos;
         }
     }
 }
