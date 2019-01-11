@@ -161,6 +161,7 @@ namespace Senmon_Missile
                     win.ClearModel(true);
                     player.Entry(win);
                     win.Entry(ModeSprite);
+                    enemy.Entry(win);
 
                 }
                 for (int n = 0; n < missiles.Count; n++)
